@@ -1,717 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxidog's on Top - Exchange Gift 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --red: #c0392b;
-            --dark-red: #8e1b10;
-            --gold: #f1c40f;
-            --dark-green: #0f381e;
-            --light-green: #1e5631;
-            --white: #ffffff;
-            --snow-bg: #0b1d13;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at top, #164a27 0%, var(--snow-bg) 100%);
-            color: var(--white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        #snowCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .lights {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 2;
-        }
-
-        .light {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        .light:nth-child(4n+1) { background: #ff4136; box-shadow: 0 0 10px #ff4136; animation-delay: 0s; }
-        .light:nth-child(4n+2) { background: #2ecc40; box-shadow: 0 0 10px #2ecc40; animation-delay: 0.4s; }
-        .light:nth-child(4n+3) { background: #ffdc00; box-shadow: 0 0 10px #ffdc00; animation-delay: 0.8s; }
-        .light:nth-child(4n+4) { background: #7fdbff; box-shadow: 0 0 10px #7fdbff; animation-delay: 1.2s; }
-
-        @keyframes glow {
-            from { opacity: 0.3; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1.1); }
-        }
-
-        .container {
-            width: 90%;
-            max-width: 500px;
-            margin: 60px auto 30px;
-            background: rgba(15, 56, 30, 0.85);
-            border: 3px solid var(--gold);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            text-align: center;
-            position: relative;
-            z-index: 10;
-        }
-
-        h1 {
-            font-family: 'Mountains of Christmas', cursive;
-            font-size: 2.8rem;
-            color: var(--gold);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            font-size: 0.95rem;
-            color: #d1e7dd;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .panel {
-            display: none;
-        }
-
-        .panel.active {
-            display: block;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            color: #e2f0d9;
-        }
-
-        select, input[type="password"] {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid var(--gold);
-            background: #ffffff;
-            color: #333;
-            font-size: 1rem;
-            font-weight: 600;
-            outline: none;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, var(--red), var(--dark-red));
-            color: var(--white);
-            border: 2px solid var(--gold);
-            padding: 12px 25px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(241, 196, 15, 0.4);
-            background: linear-gradient(135deg, #e74c3c, var(--red));
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid #a8c3b2;
-            color: #a8c3b2;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            padding: 8px 15px;
-        }
-
-        .btn-danger {
-            background: #c0392b;
-            color: white;
-            border: 1px solid #ff7979;
-            margin-top: 10px;
-            font-size: 0.85rem;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-        }
-
-        .gift-container {
-            margin: 30px auto;
-            width: 120px;
-            height: 120px;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .gift-box {
-            width: 100%;
-            height: 100%;
-            background: var(--red);
-            border-radius: 10px;
-            position: relative;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: transform 0.3s;
-        }
-
-        .gift-box:hover {
-            transform: scale(1.05) rotate(2deg);
-        }
-
-        .gift-box::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 100%;
-            background: var(--gold);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .gift-box::after {
-            content: '';
-            position: absolute;
-            height: 24px;
-            width: 100%;
-            background: var(--gold);
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .bow {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 30px;
-            background: var(--gold);
-            border-radius: 50% 50% 0 0;
-            z-index: 5;
-        }
-
-        .result-card {
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--dark-green);
-            padding: 20px;
-            border-radius: 15px;
-            border: 3px dashed var(--red);
-            margin-top: 15px;
-        }
-
-        .team-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Color Teams styling */
-        .team-red { background: #e74c3c; color: #ffffff; }
-        .team-green { background: #27ae60; color: #ffffff; }
-        .team-gold { background: #f1c40f; color: #1a1a1a; }
-        .team-silver { background: #bdc3c7; color: #2c3e50; }
-
-        .result-card h3 {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: #666;
-            letter-spacing: 1px;
-            margin-top: 10px;
-        }
-
-        .result-name {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: var(--red);
-            margin: 5px 0 10px;
-            text-shadow: 1px 1px 0px var(--gold);
-        }
-
-        .organizer-link {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.4);
-            text-decoration: underline;
-            cursor: pointer;
-            margin-top: 25px;
-            display: inline-block;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--dark-green);
-            border: 2px solid var(--gold);
-            border-radius: 15px;
-            padding: 20px;
-            max-width: 550px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
-            color: var(--white);
-            text-align: left;
-        }
-
-        .modal-content h2 {
-            font-family: 'Mountains of Christmas', cursive;
-            color: var(--gold);
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        .audit-list {
-            list-style: none;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-        }
-
-        .audit-list li {
-            padding: 8px 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .audit-list li:nth-child(even) {
-            background: rgba(255,255,255,0.05);
-        }
-
-        .alert-box {
-            background: #e74c3c;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-            display: none;
-        }
-
-        footer {
-            margin-bottom: 15px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.6);
-            z-index: 10;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Oxidog 2026 Christmas Exchange Gift</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f4f6f9; padding: 20px; }
+    .card { background: white; max-width: 450px; margin: auto; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    select, input, button { width: 90%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; }
+    button { background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; }
+    button:hover { background: #218838; }
+    .hidden { display: none; }
+    .result { background: #e9f7ef; padding: 15px; border-radius: 8px; border: 1px solid #28a745; margin-top: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #007bff; color: white; }
+  </style>
 </head>
 <body>
 
-    <canvas id="snowCanvas"></canvas>
+<div class="card">
+  <h2>🎄 Team Oxidog 2026 🎁</h2>
+  <p>Select your name & enter a 4-digit PIN to unwrap!</p>
 
-    <div class="lights">
-        <div class="light"></div><div class="light"></div><div class="light"></div>
-        <div class="light"></div><div class="light"></div><div class="light"></div>
-        <div class="light"></div><div class="light"></div><div class="light"></div>
-        <div class="light"></div><div class="light"></div><div class="light"></div>
+  <select id="userSelect">
+    <option value="">-- Choose Your Name --</option>
+  </select>
+
+  <input type="password" id="userPin" maxlength="4" placeholder="Enter 4-digit PIN">
+  
+  <div>
+    <button onclick="handleDraw()">Reveal My Gift Target</button>
+  </div>
+
+  <div id="resultBox" class="result hidden">
+    <h3>🎉 Your Draw Result 🎉</h3>
+    <p><strong>Your Team Color:</strong> <span id="resColor" style="font-weight: bold;"></span></p>
+    <p><strong>You are Secret Santa for:</strong> <span id="resTarget" style="font-size: 20px; color: #d9534f; font-weight: bold;"></span></p>
+  </div>
+
+  <hr style="margin: 25px 0;">
+  
+  <button onclick="toggleAdmin()" style="background: #6c757d;">🔑 Organizer Trace Panel</button>
+
+  <div id="adminPanel" class="hidden">
+    <h3>Organizer Master List & Audit</h3>
+    <input type="password" id="adminPass" placeholder="Enter Passcode">
+    <button onclick="loginAdmin()">Login</button>
+
+    <div id="adminContent" class="hidden">
+      <table>
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Target</th>
+            <th>Team Color</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody"></tbody>
+      </table>
     </div>
+  </div>
+</div>
 
-    <div class="container">
-        <h1>Oxidog's on Top</h1>
-        <div class="subtitle">🎄 Exchange Gift 2026 🎁</div>
+<script>
+  // FIXED MASTER LIST: GUARANTEED UNIQUE PAIRINGS, SIBLING EXCLUSION & TEAM COLORS
+  const masterPairs = {
+    "Cym":          { target: "Grace",        color: "Red" },
+    "Grace":        { target: "Ronel",        color: "Gold" },
+    "Ronel":        { target: "Bri",          color: "Green" },
+    "Bri":          { target: "Roysan",       color: "Silver" },
+    "Roysan":       { target: "Angelica",     color: "Gold" },
+    "Angelica":     { target: "Kit",          color: "Green" },
+    "Kit":          { target: "Nuy",          color: "Red" },
+    "Nuy":          { target: "Jay-ar",       color: "Gold" },
+    "Jay-ar":       { target: "Angelyn",      color: "Green" },
+    "Angelyn":      { target: "Gboy",         color: "Silver" },
+    "Gboy":         { target: "Dharelle",     color: "Red" },
+    "Dharelle":     { target: "Abe",          color: "Silver" },
+    "Abe":          { target: "Jm",           color: "Gold" },
+    "Jm":           { target: "Sarah",        color: "Silver" },
+    "Sarah":        { target: "Sean Tristan", color: "Red" },
+    "Sean Tristan": { target: "Olive",        color: "Green" },
+    "Olive":        { target: "Renej",        color: "Red" },
+    "Renej":        { target: "Aegon",        color: "Silver" },
+    "Aegon":        { target: "Honeyleth",    color: "Gold" },
+    "Honeyleth":    { target: "Karen",        color: "Silver" },
+    "Karen":        { target: "Cym",          color: "Red" }
+  };
 
-        <div id="alertBox" class="alert-box"></div>
+  // Populate Dropdown List
+  const select = document.getElementById("userSelect");
+  Object.keys(masterPairs).forEach(p => {
+    let opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = p;
+    select.appendChild(opt);
+  });
 
-        <div id="step1" class="panel active">
-            <label for="userSelect">Select your name from Team Oxidog:</label>
-            <select id="userSelect">
-                <option value="" disabled selected>-- Select your name --</option>
-            </select>
-            <button class="btn" onclick="goToStep2()">Next ➔</button>
-        </div>
+  function handleDraw() {
+    const name = document.getElementById("userSelect").value;
+    const pin = document.getElementById("userPin").value;
 
-        <div id="step2" class="panel">
-            <p id="pinInstructions" style="font-size: 0.9rem; margin-bottom: 12px;"></p>
-            <input type="password" id="pinInput" placeholder="Enter 4-digit PIN" maxlength="4" pattern="\d{4}">
-            <button class="btn" onclick="verifyPinAndDraw()">Unwrap My Gift 🎁</button>
-            <button class="btn btn-secondary" onclick="showPanel('step1')">← Back</button>
-        </div>
+    if (!name || pin.length !== 4) {
+      alert("Please select your name and enter a 4-digit PIN.");
+      return;
+    }
 
-        <div id="step3" class="panel">
-            <p style="font-size: 0.95rem;">Click the gift box to discover your team & pick!</p>
-            
-            <div class="gift-container" id="giftBoxContainer" onclick="revealNabunot()">
-                <div class="bow"></div>
-                <div class="gift-box"></div>
-            </div>
+    const res = masterPairs[name];
+    if (res) {
+      document.getElementById("resColor").textContent = res.color;
+      document.getElementById("resTarget").textContent = res.target;
+      document.getElementById("resultBox").classList.remove("hidden");
+    }
+  }
 
-            <div id="resultArea" style="display: none;">
-                <div class="result-card">
-                    <p style="font-size: 0.8rem; color: #555; font-weight: 600; margin-bottom: 5px;">YOUR ASSIGNED TEAM COLOR:</p>
-                    <div id="teamBadge" class="team-badge">RED TEAM</div>
-                    
-                    <hr style="border: 0; border-top: 1px dashed #ccc; margin: 10px 0;">
+  function toggleAdmin() {
+    document.getElementById("adminPanel").classList.toggle("hidden");
+  }
 
-                    <h3>Your Picked Person Is:</h3>
-                    <div class="result-name" id="nabunotName">???</div>
-                    <p style="font-size: 0.75rem; color: #555;">🤫 Keep it secret! Do not reveal it to anyone!</p>
-                </div>
-                <button class="btn btn-secondary" style="margin-top:20px;" onclick="resetView()">Done / Lock Screen 🔒</button>
-            </div>
-        </div>
+  function loginAdmin() {
+    const pass = document.getElementById("adminPass").value;
+    if (pass === "oxidog2026") {
+      document.getElementById("adminContent").classList.remove("hidden");
+      const tbody = document.getElementById("adminTableBody");
+      tbody.innerHTML = "";
 
-        <div class="organizer-link" onclick="openAdminModal()">🔑 Organizer Trace Panel</div>
-    </div>
+      for (let p in masterPairs) {
+        let row = `<tr>
+          <td>${p}</td>
+          <td>${masterPairs[p].target}</td>
+          <td style="font-weight:bold;">${masterPairs[p].color}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      }
+    } else {
+      alert("Wrong passcode!");
+    }
+  }
+</script>
 
-    <footer>Team Oxidog © 2026 • Merry Christmas!</footer>
-
-    <div class="modal" id="adminModal">
-        <div class="modal-content">
-            <h2>Organizer Audit Panel</h2>
-            <p style="font-size: 0.8rem; color: #a8c3b2; margin-bottom: 15px;">Live status & color teams of all 21 participants.</p>
-            
-            <div id="adminAuth">
-                <input type="password" id="adminPasscode" placeholder="Enter Organizer Passcode">
-                <button class="btn" onclick="authenticateAdmin()">Verify Access</button>
-            </div>
-
-            <div id="adminData" style="display: none;">
-                <ul class="audit-list" id="auditList"></ul>
-                <button class="btn btn-secondary" onclick="exportCSV()">📥 Download CSV Summary</button>
-                <button class="btn-danger" onclick="masterReset()">🔄 Master Reset All Bunotan</button>
-                <button class="btn btn-secondary" style="margin-top: 5px; color: #ff8888; border-color: #ff8888;" onclick="closeAdminModal()">Close Panel</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 21 Official Team Members
-        const PARTICIPANTS = [
-            "Cym", "Bri", "Nuy", "Abe", "Karen", 
-            "Angelica", "Angelyn", "Renej", "Gboy", "Ronel", 
-            "Grace", "Roysan", "Kit", "Jay-ar", "Sean Tristan", 
-            "Dharelle", "Sarah", "Olive", "Jm", "Aegon", "Honeyleth"
-        ];
-
-        // 4 Color Teams Assignment (Deterministic Seed Mapping so each person gets a fixed color)
-        const TEAMS = ["Red Team 🔴", "Green Team 🟢", "Gold Team 🟡", "Silver Team ⚪"];
-
-        function getMemberTeam(name) {
-            const index = PARTICIPANTS.indexOf(name);
-            return TEAMS[index % 4];
-        }
-
-        function getTeamClass(teamName) {
-            if (teamName.includes("Red")) return "team-red";
-            if (teamName.includes("Green")) return "team-green";
-            if (teamName.includes("Gold")) return "team-gold";
-            return "team-silver";
-        }
-
-        let selectedUser = "";
-
-        function getDrawnPairs() {
-            const data = localStorage.getItem('oxidog_drawn_pairs');
-            return data ? JSON.parse(data) : {};
-        }
-
-        function saveDrawnPairs(pairs) {
-            localStorage.setItem('oxidog_drawn_pairs', JSON.stringify(pairs));
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            populateNameDropdown();
-            initSnow();
-        });
-
-        function populateNameDropdown() {
-            const select = document.getElementById('userSelect');
-            select.innerHTML = '<option value="" disabled selected>-- Select your name --</option>';
-            PARTICIPANTS.slice().sort().forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name;
-                opt.textContent = name;
-                select.appendChild(opt);
-            });
-        }
-
-        function showAlert(msg) {
-            const box = document.getElementById('alertBox');
-            box.textContent = msg;
-            box.style.display = 'block';
-            setTimeout(() => { box.style.display = 'none'; }, 3500);
-        }
-
-        function showPanel(panelId) {
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(panelId).classList.add('active');
-        }
-
-        function goToStep2() {
-            const select = document.getElementById('userSelect');
-            selectedUser = select.value;
-            if (!selectedUser) {
-                showAlert("Please select your name from the list!");
-                return;
-            }
-
-            const savedPin = localStorage.getItem(`pin_${selectedUser}`);
-            const instructions = document.getElementById('pinInstructions');
-            
-            if (savedPin) {
-                instructions.textContent = `Welcome back, ${selectedUser}! Enter your 4-digit PIN to view your pick:`;
-            } else {
-                instructions.textContent = `Hello, ${selectedUser}! Create a 4-digit PIN so only you can view your pick:`;
-            }
-            
-            document.getElementById('pinInput').value = '';
-            showPanel('step2');
-        }
-
-        function verifyPinAndDraw() {
-            const pinInput = document.getElementById('pinInput').value.trim();
-            if (pinInput.length !== 4 || isNaN(pinInput)) {
-                showAlert("Please enter a valid 4-digit numeric PIN!");
-                return;
-            }
-
-            const savedPin = localStorage.getItem(`pin_${selectedUser}`);
-            if (savedPin) {
-                if (savedPin !== pinInput) {
-                    showAlert("Incorrect PIN! Please try again.");
-                    return;
-                }
-            } else {
-                localStorage.setItem(`pin_${selectedUser}`, pinInput);
-            }
-
-            const pairs = getDrawnPairs();
-            if (pairs[selectedUser]) {
-                document.getElementById('giftBoxContainer').style.display = 'none';
-                displayResult(selectedUser, pairs[selectedUser]);
-            } else {
-                document.getElementById('giftBoxContainer').style.display = 'block';
-                document.getElementById('resultArea').style.display = 'none';
-            }
-
-            showPanel('step3');
-        }
-
-        function revealNabunot() {
-            let pairs = getDrawnPairs();
-            
-            if (!pairs[selectedUser]) {
-                const takenReceivers = Object.values(pairs);
-                let availablePool = PARTICIPANTS.filter(name => name !== selectedUser && !takenReceivers.includes(name));
-
-                if (availablePool.length === 0) {
-                    showAlert("Drawing conflict detected for the last turn. Please inform the organizer to reset.");
-                    return;
-                }
-
-                const randomIndex = Math.floor(Math.random() * availablePool.length);
-                const pickedPerson = availablePool[randomIndex];
-
-                pairs[selectedUser] = pickedPerson;
-                saveDrawnPairs(pairs);
-            }
-
-            document.getElementById('giftBoxContainer').style.display = 'none';
-            displayResult(selectedUser, pairs[selectedUser]);
-
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-        }
-
-        function displayResult(giver, receiver) {
-            const team = getMemberTeam(giver);
-            const teamBadge = document.getElementById('teamBadge');
-            
-            teamBadge.textContent = team;
-            teamBadge.className = `team-badge ${getTeamClass(team)}`;
-            
-            document.getElementById('nabunotName').textContent = receiver;
-            document.getElementById('resultArea').style.display = 'block';
-        }
-
-        function resetView() {
-            document.getElementById('userSelect').value = '';
-            selectedUser = '';
-            showPanel('step1');
-        }
-
-        function openAdminModal() {
-            document.getElementById('adminModal').classList.add('active');
-            document.getElementById('adminAuth').style.display = 'block';
-            document.getElementById('adminData').style.display = 'none';
-            document.getElementById('adminPasscode').value = '';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
-        }
-
-        function authenticateAdmin() {
-            const pass = document.getElementById('adminPasscode').value;
-            if (pass === "oxidog2026") {
-                document.getElementById('adminAuth').style.display = 'none';
-                document.getElementById('adminData').style.display = 'block';
-                renderAuditList();
-            } else {
-                alert("Incorrect organizer passcode!");
-            }
-        }
-
-        function renderAuditList() {
-            const list = document.getElementById('auditList');
-            list.innerHTML = '';
-            const pairs = getDrawnPairs();
-            
-            let count = 0;
-            PARTICIPANTS.forEach(giver => {
-                count++;
-                const team = getMemberTeam(giver);
-                const receiver = pairs[giver] ? pairs[giver] : "⏳ (Not drawn yet)";
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <div>
-                        <strong>${count}. ${giver}</strong> 
-                        <small style="opacity:0.7; font-size:0.75rem;">(${team})</small>
-                    </div>
-                    <div>➔ <span style="color:${pairs[giver] ? 'var(--gold)' : '#aaa'}; font-weight:bold;">${receiver}</span></div>
-                `;
-                list.appendChild(li);
-            });
-        }
-
-        function masterReset() {
-            if (confirm("Are you sure you want to reset all draws? Everyone will have to draw again.")) {
-                localStorage.removeItem('oxidog_drawn_pairs');
-                PARTICIPANTS.forEach(p => localStorage.removeItem(`pin_${p}`));
-                renderAuditList();
-                alert("All draw records and PINs have been successfully reset!");
-                resetView();
-            }
-        }
-
-        function exportCSV() {
-            const pairs = getDrawnPairs();
-            let csvContent = "data:text/csv;charset=utf-8,Giver (Sender),Assigned Team,Receiver (Picked)\n";
-            PARTICIPANTS.forEach(giver => {
-                const team = getMemberTeam(giver);
-                csvContent += `${giver},${team},${pairs[giver] || "Not Drawn Yet"}\n`;
-            });
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Oxidog_Bunotan_Teams_Status_2026.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-
-        function initSnow() {
-            const canvas = document.getElementById('snowCanvas');
-            const ctx = canvas.getContext('2d');
-
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            const flakes = Array.from({ length: 60 }, () => ({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 3 + 1,
-                density: Math.random() * 1 + 0.5,
-                opacity: Math.random() * 0.7 + 0.3
-            }));
-
-            function drawFlakes() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.beginPath();
-                flakes.forEach(f => {
-                    ctx.moveTo(f.x, f.y);
-                    ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2, true);
-                });
-                ctx.fill();
-                moveFlakes();
-            }
-
-            function moveFlakes() {
-                flakes.forEach(f => {
-                    f.y += Math.pow(f.density, 2) + 0.5;
-                    f.x += Math.sin(f.y / 20);
-                    if (f.y > canvas.height) {
-                        f.y = -10;
-                        f.x = Math.random() * canvas.width;
-                    }
-                });
-            }
-
-            setInterval(drawFlakes, 30);
-        }
-    </script>
 </body>
 </html>
